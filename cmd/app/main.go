@@ -5,6 +5,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/vanhunguet/GrabhQL/graph"
 	"github.com/vanhunguet/GrabhQL/graph/generated"
+	"github.com/vanhunguet/GrabhQL/internal/app/adapter/database/db/mysql"
 	"log"
 	"net/http"
 	"os"
@@ -13,7 +14,7 @@ import (
 const defaultPort = "8080"
 
 func main() {
-	//mysql.SetupDatabaseConnection()
+	mysql.SetupDatabaseConnection()
 
 	port := os.Getenv("PORT")
 	if port == "" {

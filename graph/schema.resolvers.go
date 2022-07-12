@@ -5,25 +5,35 @@ package graph
 
 import (
 	"context"
-	"fmt"
-	"math/rand"
-
 	"github.com/vanhunguet/GrabhQL/graph/generated"
 	"github.com/vanhunguet/GrabhQL/graph/model"
+	"github.com/vanhunguet/GrabhQL/internal/app/adapter/database/db/mysql"
+	"github.com/vanhunguet/GrabhQL/internal/app/adapter/database/db/mysql/local/model_db"
 )
+
+var connection = mysql.SetupDatabaseConnection()
 
 // CreateVideo is the resolver for the createVideo field.
 func (r *mutationResolver) CreateVideo(ctx context.Context, input model.NewVideo) (*model.Video, error) {
+
+	videoCr := model_db.Video{
+		Title:    input.Title,
+		URL:      input.URL,
+		AuthorId: input.UserID,
+	}
+
+	err := connection.Create(&videoCr).Error
+
 	video := &model.Video{
-		ID:    fmt.Sprintf("%d", rand.Intn(100)),
+		ID:    videoCr.ID,
 		Title: input.Title,
 		URL:   input.URL,
 		Author: &model.User{
-			ID: input.UserID, Name: "user" + input.UserID,
+			ID: input.UserID,
 		},
 	}
 	r.videos = append(r.videos, video)
-	return video, nil
+	return video, err
 
 }
 

@@ -5,16 +5,16 @@ package model
 type NewVideo struct {
 	Title  string `json:"title"`
 	URL    string `json:"url"`
-	UserID string `json:"userId"`
+	UserID int    `json:"userId"`
 }
 
 type User struct {
-	ID   string `json:"id"`
+	ID   int    `json:"id"`
 	Name string `json:"name"`
 }
 
 type Video struct {
-	ID     string `json:"id"`
+	ID     int    `json:"id"`
 	Title  string `json:"title"`
 	URL    string `json:"url"`
 	Author *User  `json:"author"`
